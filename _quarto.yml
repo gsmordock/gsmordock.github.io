@@ -8,7 +8,7 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - Project.qmd
 
 format:
   html:
@@ -17,6 +17,8 @@ format:
       - brand
     css: styles.css
     toc: true
+    mainfont: times-new-roman
+    fonstize: 20px
 
 editor: visual
 
