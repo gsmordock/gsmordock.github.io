@@ -1,6 +1,61 @@
 ---
 title: "Project"
-format: html
+author: "Gigi Mordock"
+format: pdf
+editor: source
 ---
 
-This page will contain my Math 437 final project
+## Section 1: Data Description
+
+```{r}
+#| label: load packages
+library(baseballr)
+```
+
+```{r}
+#| label: import data
+library(dplyr)
+library(Lahman)
+# season data from last 10 years (2014-2024)
+teams <- Teams
+```
+
+An observation in this data set corresponds to the data from a specific team in a specific year in baseball. There are 3614 observations in this data set with 48 variables. However, I am wanting to reduce this information to the 30 MLB teams over the span of time from 2021-2024 in order to see what data predicts wins based on offensive and defensive statistics.  
+
+The Society for American Baseball Research member Sean Lahman collected this data and it is updated after each season. Data is collected up to the 2024 season as recorded in the 2025 version of the database. The data was collected in order to allow people to conduct research projects and simulate games. 
+
+####*DELETE THIS*######
+✅ Response variable (for supervised learning):
+W (wins) ← this is what you’ll predict
+✅ Predictor variables (features):
+You want a mix of offensive + defensive stats like:
+Hitting (offense)
+Runs scored (R)
+Home runs (HR)
+On-base percentage (OBP)
+Slugging (SLG)
+Batting average (AVG)
+Pitching (defense)
+Runs allowed (RA)
+ERA
+Strikeouts (SO)
+WHIP
+
+Optional extras (nice for depth)
+Payroll
+Run differential (R - RA)
+Walks, hits allowed, etc.
+👉 This gives you:
+
+EDA: distributions + scatterplots
+Clustering: group teams by style
+Prediction: model wins
+
+## Section 2: Data Wrangling and Exploratory Data Analysis
+
+
+## Section 3: Unsupervised Learning
+
+
+## Section 4: Supervised Learning
+
