@@ -10,42 +10,72 @@ editor: source
 ```{r}
 #| label: load packages
 library(baseballr)
+library(rsample)
+library(dplyr)
+library(Lahman)
 ```
 
 ```{r}
 #| label: import data
-library(dplyr)
-library(Lahman)
 teams <- Teams
+teams <- teams |>
+  filter(
+    yearID >= 2021
+  )
+teams <- teams |> 
+  select(
+  yearID, # year played
+  name, # name of team
+  W, # wins
+  G, # games
+  R, # runs
+  AB, # at bats
+  H, # hits
+  X2B, # doubles
+  X3B, # triples
+  HR, # home runs
+  BB, # walk
+  SO, # strikeout
+  SB, # stolen base
+  CS, # caught stealing
+  HBP, # hit by pitch
+  SF, # sacrifice fly
+  RA, # opponents runs scored
+  ER, # earned runs 
+  ERA, # earned run average
+  SHO, # shutouts
+  SV, # saves 
+  IPouts, # outs pitched 
+  HA, # hits allowed
+  HRA, # homeruns allowed
+  BBA, # walks allowed
+  E, # errors
+  DP # double plays
+  )
+
+# figure out WinPct: W/G
+# figure out run differential:  R-RA
+# figure out WHIP: (BBA+HA)/(Innings Pitched/3)
+
 ```
 
-An observation in this data set corresponds to the data from a specific team in a specific year in baseball. There are 3614 observations in this data set with 48 variables. However, I am wanting to reduce this information to the 30 MLB teams over the span of time from 2021-2024 in order to see what data predicts how many wins a team get in a season based on offensive and defensive statistics.  
+An observation in this data set corresponds to the data from a specific team in a specific year in baseball. There are 3614 observations in the full data set with 48 variables. However, I am wanting to reduce this information to the 30 MLB teams over the span of time from 2021-2025 in order to see what data predicts how many wins a team get in a season based on offensive and defensive statistics. After the changes to adjust for my time period and the necessary variables, there are 150 observations and ******27*CHECK THIS BEFORE TURNING IN**** variables that have to do with offensive and defensive statistics. 
 
-The Society for American Baseball Research member Sean Lahman collected this data and it is updated after each season. Data is collected up to the 2024 season as recorded in the 2025 version of the database. The data was collected in order to allow people to conduct research projects and simulate games. 
+The Society for American Baseball Research member Sean Lahman collected this data and it is updated after each season. Data is collected up to the 2025 season as recorded in the 2026 version of the database. The data was collected in order to allow people to conduct research projects and simulate games. 
 
-####*DELETE THIS*######
-mix of offensive + defensive stats like:
-Hitting (offense)
-Runs scored (R)
-Home runs (HR)
-On-base percentage (OBP)
-Slugging (SLG)
-Batting average (AVG)
 
-Pitching (defense)
-Runs allowed (RA)
-ERA
-Strikeouts (SO)
-WHIP
+```{r}
+#| label: split into train and test data
+set.seed(2026)
+teams_split <- initial_split(teams, prop = .8)
+teams_train <- training(teams_split)
+teams_test <- testing(teams_split)
+```
 
-Optional extras
-Payroll
-Run differential (R - RA)
-Walks, hits allowed, etc.
+######DELETE EDA: distributions + scatterplots
+######DELETE Clustering: group teams by off/def style
+######DELETE: Prediction: model wins
 
-EDA: distributions + scatterplots
-Clustering: group teams by style
-Prediction: model wins
 
 ## Section 2: Data Wrangling and Exploratory Data Analysis
 
