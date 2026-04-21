@@ -16,7 +16,6 @@ library(baseballr)
 #| label: import data
 library(dplyr)
 library(Lahman)
-# season data from last 10 years (2014-2024)
 teams <- Teams
 ```
 
@@ -28,24 +27,24 @@ The Society for American Baseball Research member Sean Lahman collected this dat
 ✅ Response variable (for supervised learning):
 W (wins) ← this is what you’ll predict
 ✅ Predictor variables (features):
-You want a mix of offensive + defensive stats like:
+ mix of offensive + defensive stats like:
 Hitting (offense)
 Runs scored (R)
 Home runs (HR)
 On-base percentage (OBP)
 Slugging (SLG)
 Batting average (AVG)
+
 Pitching (defense)
 Runs allowed (RA)
 ERA
 Strikeouts (SO)
 WHIP
 
-Optional extras (nice for depth)
+Optional extras
 Payroll
 Run differential (R - RA)
 Walks, hits allowed, etc.
-👉 This gives you:
 
 EDA: distributions + scatterplots
 Clustering: group teams by style
