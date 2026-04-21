@@ -19,15 +19,12 @@ library(Lahman)
 teams <- Teams
 ```
 
-An observation in this data set corresponds to the data from a specific team in a specific year in baseball. There are 3614 observations in this data set with 48 variables. However, I am wanting to reduce this information to the 30 MLB teams over the span of time from 2021-2024 in order to see what data predicts wins based on offensive and defensive statistics.  
+An observation in this data set corresponds to the data from a specific team in a specific year in baseball. There are 3614 observations in this data set with 48 variables. However, I am wanting to reduce this information to the 30 MLB teams over the span of time from 2021-2024 in order to see what data predicts how many wins a team get in a season based on offensive and defensive statistics.  
 
 The Society for American Baseball Research member Sean Lahman collected this data and it is updated after each season. Data is collected up to the 2024 season as recorded in the 2025 version of the database. The data was collected in order to allow people to conduct research projects and simulate games. 
 
 ####*DELETE THIS*######
-✅ Response variable (for supervised learning):
-W (wins) ← this is what you’ll predict
-✅ Predictor variables (features):
- mix of offensive + defensive stats like:
+mix of offensive + defensive stats like:
 Hitting (offense)
 Runs scored (R)
 Home runs (HR)
