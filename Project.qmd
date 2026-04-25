@@ -72,6 +72,9 @@ teams_train <- training(teams_split)
 teams_test <- testing(teams_split)
 ```
 
+The data set was split into 80% and 20% of the data, where 80% went into the training set and 20% went into the test set. The training set has 120 observations and the testing set has 30 observations. 
+
+
 ######DELETE EDA: distributions + scatterplots
 ######DELETE Clustering: group teams by off/def style
 ######DELETE: Prediction: model wins
