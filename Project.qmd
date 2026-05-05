@@ -26,9 +26,9 @@ teams <- teams |>
   select(
   yearID, # year played
   name, # name of team
-  W, # wins
-  G, # games
-  R, # runs
+  W, # wins 
+  G, # games - 161-162 depending on the season 
+  R, # runs 
   AB, # at bats
   H, # hits
   X2B, # doubles
@@ -54,17 +54,14 @@ teams <- teams |>
   )
 teams <- teams |>
   mutate(
-    WinPct = W/G,
-    run_diff = R-RA,
-    WHIP = (BBA + HA)/(IPouts/3)
+    WinPct = round(W/G, 4), # win percentage
+    run_diff = R-RA, # run differential 
+    WHIP = round((BBA + HA)/(IPouts/3), 2) # WHIP -> walks, hits per inning pitched
   )
-# figure out WinPct: W/G
-# figure out run differential:  R-RA
-# figure out WHIP: (BBA+HA)/(IPouts/3)
 
 ```
 
-An observation in this data set corresponds to the data from a specific team in a specific year in baseball. There are 3614 observations in the full data set with 48 variables. However, I am wanting to reduce this information to the 30 MLB teams over the span of time from 2021-2025 in order to see what data predicts how many wins a team get in a season based on offensive and defensive statistics. After the changes to adjust for my time period and the necessary variables, there are 150 observations and ******27*CHECK THIS BEFORE TURNING IN**** variables that have to do with offensive and defensive statistics. 
+An observation in this data set corresponds to the data from a specific team in a specific year in baseball. There are 3614 observations in the full data set with 48 variables. However, I am wanting to reduce this information to the 30 MLB teams over the span of time from 2021-2025 in order to see what data predicts how many wins a team get in a season based on offensive and defensive statistics. After the changes to adjust for my time period and the necessary variables, there are 150 observations and 27 variables that have to do with offensive and defensive statistics. I have also added 3 more variables that were not included but are calculated from combinations of the given variables. 
 
 The Society for American Baseball Research member Sean Lahman collected this data and it is updated after each season. Data is collected up to the 2025 season as recorded in the 2026 version of the database. The data was collected in order to allow people to conduct research projects and simulate games. 
 
