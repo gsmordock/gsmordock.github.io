@@ -91,6 +91,7 @@ Please grade on the additional exploratory Analysis rubric as this data was alre
 #Write a narrative describing what you followed up on, why, and what you found (in context). Interleave the code and graphs with the narrative in the appropriate places. 
 
 ## Section 3: Unsupervised Learning
+
 #Select one of the following techniques: Principal Component Analysis, k-means clustering, or model-based clustering. You may additionally choose hierarchical clustering if you think the training set is small enough that you can get a reasonable-looking dendrogram. 
 #Perform the technique on the training set. Select the number of PCs or number of clusters. Justify your selection.
 #Explain the general concepts/procedure behind the algorith you are implementing. Attempt as best you can to write your explanation in language that someone without much statistical knowledge can understand.
@@ -99,3 +100,13 @@ Please grade on the additional exploratory Analysis rubric as this data was alre
 
 ## Section 4: Supervised Learning
 
+# Fit two suervised learning models on the training according to the following criteria:
+1. at least one of the two models must be a new model introduced since Project #1 (i.e., k-nearest neighbors, bagging/random forests, or boosted trees for regression; k-nearest neighbors, LDA, QDA, Naive, Bayes, or a tree-based method for classification). The other can be a linear/logistic regression model or a different "new model"
+2. You should demonstrate your understanding of hyperparameter tuning by including and tuning at least one hyperparameter in at least one of the two models
+If your dataset does not have a natural response variable, choose or create something that might make sense as a response variable
+
+Fit the models on the training set.
+Tune the hyperparemter(s) for one model
+Explain what the hyperparameter(s) represent(s). Explain how the choice of one of the hyperparameters adjusts the bias vs variance of the model
+Explain in general how each algorithm works. Attempt as best you can to write your explanation in language that someone without much statistical knowledge can understand. Identify the assumptions of the algorithm and assess (based on your EDA) whether the assumptions are reasonable.
+Using cross-validation, assess the accuracy and the standard deviation of average accuracy for each model 
