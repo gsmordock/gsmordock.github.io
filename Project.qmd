@@ -52,10 +52,15 @@ teams <- teams |>
   E, # errors
   DP # double plays
   )
-
+teams <- teams |>
+  mutate(
+    WinPct = W/G,
+    run_diff = R-RA,
+    WHIP = (BBA + HA)/(IPouts/3)
+  )
 # figure out WinPct: W/G
 # figure out run differential:  R-RA
-# figure out WHIP: (BBA+HA)/(Innings Pitched/3)
+# figure out WHIP: (BBA+HA)/(IPouts/3)
 
 ```
 
@@ -79,11 +84,20 @@ The data set was split into 80% and 20% of the data, where 80% went into the tra
 ######DELETE Clustering: group teams by off/def style
 ######DELETE: Prediction: model wins
 
-
 ## Section 2: Data Wrangling and Exploratory Data Analysis
+Please grade on the additional exploratory Analysis rubric as this data was already very clean. 
 
+#Produce univariate summaries and graphs of at least two variables (features and/or outcomes)
+#Produce at least two graphs showing bivariate or multivariate trends (or lack thereof)
+#Write a narrative describing what was explored, why, and what was found (in context). Interleave the code and graphs with the narrative in the appropriate places. Include follow-up questions and answers as appropriate to the narrative. 
+#Explore in-depth one or more follow-up questions as appropriate to the original narrative.
+#Write a narrative describing what you followed up on, why, and what you found (in context). Interleave the code and graphs with the narrative in the appropriate places. 
 
 ## Section 3: Unsupervised Learning
+#Select one of the following techniques: Principal Component Analysis, k-means clustering, or model-based clustering. You may additionally choose hierarchical clustering if you think the training set is small enough that you can get a reasonable-looking dendrogram. 
+#Perform the technique on the training set. Select the number of PCs or number of clusters. Justify your selection.
+#Explain the general concepts/procedure behind the algorith you are implementing. Attempt as best you can to write your explanation in language that someone without much statistical knowledge can understand.
+#Produce appropriate graphs showing the results of your technique. Explain what your chosen PCs (at least the first two) or chosen clusters (at least two) represent in context. 
 
 
 ## Section 4: Supervised Learning
