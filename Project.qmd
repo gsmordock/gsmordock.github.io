@@ -206,8 +206,6 @@ teams|>
 
 ## Section 3: Unsupervised Learning
 
-#Select one of the following techniques: Principal Component Analysis, k-means clustering, or model-based clustering. You may additionally choose hierarchical clustering if you think the training set is small enough that you can get a reasonable-looking dendrogram. 
-#Perform the technique on the training set. Select the number of PCs or number of clusters. Justify your selection.
 
 In the context of the data that I already have investigated, k-means clustering seems to be the best fit. I want to use the performance rate statistics to make this a lot easier to work with and analyze. 
 ```{r}
@@ -256,6 +254,11 @@ ggplot(
   )
 ```
 
+#Explain the general concepts/procedure behind the algorith you are implementing. Attempt as best you can to write your explanation in language that someone without much statistical knowledge can understand.
+K-means clustering is a method that groups observations based on how similar they are. The model compares the teams based on the selected variables. Teams with similar values are going to be grouped together into the same cluster. The goal is to create clusters where teams are as similar as possible within the cluster and incredibly different than the teams in other clusters. 
+
+In order to do this, we have to pick how many groups we want, represented by k = 3. The algorithm randomly places 3 center poins called centroids and assigns teams to the closest one based on similarities. The locations are then updated to reflect the average of the group. The process repeats many times until the groupings stabilize and there are not as much switching of clusters. This helps to discover patterns that may not be obvious when looking at the data initially. 
+
 ```{r}
 teams |>
   group_by(cluster) |>
@@ -267,7 +270,22 @@ teams |>
   )
 ```
 
-I want to compare this with my previous classification of the Balanced, Offenseive, Defensive and Weak teams. 
+Now, I am going to compare it with a majority of the variables that are in the data set to see if that would change anything. I did exclude some variables as they are highly correlated with another variable. 
+
+```{r}
+#| label: more variables k-means
+
+cluster_data_new <- teams |>
+  select(
+    AVG, HR, SB, BB, ERA, WHIP, SV, E, DP, run_diff) |>
+  na.omit()
+
+```
+
+
+
+
+I want to compare this with my previous classification of the Balanced, Offensive, Defensive and Weak teams. 
 
 ```{r}
 #| label: comparison 
@@ -286,7 +304,6 @@ ggplot(
   )
 ```
 
-#Explain the general concepts/procedure behind the algorith you are implementing. Attempt as best you can to write your explanation in language that someone without much statistical knowledge can understand.
 #Produce appropriate graphs showing the results of your technique. Explain what your chosen PCs (at least the first two) or chosen clusters (at least two) represent in context. 
 
 
