@@ -206,7 +206,6 @@ teams|>
 
 ## Section 3: Unsupervised Learning
 
-
 In the context of the data that I already have investigated, k-means clustering seems to be the best fit. I want to use the performance rate statistics to make this a lot easier to work with and analyze. 
 ```{r}
 #| label: choose variables to cluster
@@ -240,6 +239,7 @@ set.seed(2026)
 kmeans_teams <- kmeans(cluster_scaled, centers = 3, nstart = 25)
 teams$cluster <- as.factor(kmeans_teams$cluster)
 ```
+
 ```{r}
 #| label: visualize the clusters
 
@@ -270,25 +270,10 @@ teams |>
   )
 ```
 
-Now, I am going to compare it with a majority of the variables that are in the data set to see if that would change anything. I did exclude some variables as they are highly correlated with another variable. 
-
-```{r}
-#| label: more variables k-means
-
-cluster_data_new <- teams |>
-  select(
-    AVG, HR, SB, BB, ERA, WHIP, SV, E, DP, run_diff) |>
-  na.omit()
-
-```
-
-
-
-
 I want to compare this with my previous classification of the Balanced, Offensive, Defensive and Weak teams. 
 
 ```{r}
-#| label: comparison 
+#| label: comparison with 3 variables 
 
 table(teams$team_type, teams$cluster)
 
