@@ -257,7 +257,7 @@ ggplot(
 #Explain the general concepts/procedure behind the algorith you are implementing. Attempt as best you can to write your explanation in language that someone without much statistical knowledge can understand.
 K-means clustering is a method that groups observations based on how similar they are. The model compares the teams based on the selected variables. Teams with similar values are going to be grouped together into the same cluster. The goal is to create clusters where teams are as similar as possible within the cluster and incredibly different than the teams in other clusters. 
 
-In order to do this, we have to pick how many groups we want, represented by k = 3. The algorithm randomly places 3 center poins called centroids and assigns teams to the closest one based on similarities. The locations are then updated to reflect the average of the group. The process repeats many times until the groupings stabilize and there are not as much switching of clusters. This helps to discover patterns that may not be obvious when looking at the data initially. 
+In order to do this, we have to pick how many groups we want, represented by k = 3. The algorithm randomly places 3 center points called centroids and assigns teams to the closest one based on similarities. The locations are then updated to reflect the average of the group. The process repeats many times until the groupings stabilize and there are not as much switching of clusters. This helps to discover patterns that may not be obvious when looking at the data initially. 
 
 ```{r}
 teams |>
