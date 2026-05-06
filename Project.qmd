@@ -13,6 +13,7 @@ library(baseballr)
 library(rsample)
 library(dplyr)
 library(Lahman)
+library(ggplot2)
 ```
 
 ```{r}
@@ -56,12 +57,15 @@ teams <- teams |>
   mutate(
     WinPct = round(W/G, 4), # win percentage
     run_diff = R-RA, # run differential 
-    WHIP = round((BBA + HA)/(IPouts/3), 2) # WHIP -> walks, hits per inning pitched
+    WHIP = round((BBA + HA)/(IPouts/3), 2), # WHIP -> walks, hits per inning pitched
+    AVG = round(H/AB, 3), # batting average
+    OBP = round((H+BB+HBP)/(AB+BB+HBP+SF), 3), # on-base percentage 
+    slugpct = round(((H-X2B-X3B-HR) + 2*X2B + 3*X3B + 4*HR) / AB, 3), # slugging percentage
+    OPS = round(OBP + slugpct, 4) # OPS
   )
-
 ```
 
-An observation in this data set corresponds to the data from a specific team in a specific year in baseball. There are 3614 observations in the full data set with 48 variables. However, I am wanting to reduce this information to the 30 MLB teams over the span of time from 2021-2025 in order to see what data predicts how many wins a team get in a season based on offensive and defensive statistics. After the changes to adjust for my time period and the necessary variables, there are 150 observations and 27 variables that have to do with offensive and defensive statistics. I have also added 3 more variables that were not included but are calculated from combinations of the given variables. 
+An observation in this data set corresponds to the data from a specific team in a specific year in baseball. There are 3614 observations in the full data set with 48 variables. However, I am wanting to reduce this information to the 30 MLB teams over the span of time from 2021-2025 in order to see what data predicts how many wins a team get in a season based on offensive and defensive statistics. After the changes to adjust for my time period and the necessary variables, there are 150 observations and 27 variables that have to do with offensive and defensive statistics. I have also added 7 more variables that were not included but are calculated from combinations of the given variables. These values were calculated and a small random sample was checked for correct calculation. 
 
 The Society for American Baseball Research member Sean Lahman collected this data and it is updated after each season. Data is collected up to the 2025 season as recorded in the 2026 version of the database. The data was collected in order to allow people to conduct research projects and simulate games. 
 
@@ -77,23 +81,211 @@ teams_test <- testing(teams_split)
 The data set was split into 80% and 20% of the data, where 80% went into the training set and 20% went into the test set. The training set has 120 observations and the testing set has 30 observations. 
 
 
-######DELETE EDA: distributions + scatterplots
 ######DELETE Clustering: group teams by off/def style
 ######DELETE: Prediction: model wins
 
 ## Section 2: Data Wrangling and Exploratory Data Analysis
 Please grade on the additional exploratory Analysis rubric as this data was already very clean. 
 
-#Produce univariate summaries and graphs of at least two variables (features and/or outcomes)
-#Produce at least two graphs showing bivariate or multivariate trends (or lack thereof)
-#Write a narrative describing what was explored, why, and what was found (in context). Interleave the code and graphs with the narrative in the appropriate places. Include follow-up questions and answers as appropriate to the narrative. 
-#Explore in-depth one or more follow-up questions as appropriate to the original narrative.
-#Write a narrative describing what you followed up on, why, and what you found (in context). Interleave the code and graphs with the narrative in the appropriate places. 
+I decided to look into some big indicators of success within a baseball team: batting average and earned run average. Batting average is often a great indicator of success from offense and earned run averages are an indicator of defense. This will help me to categorize the groupings of offensive versus defensive teams.   
+
+```{r}
+#| label: Boxplot of ERA (2021+)
+
+ggplot(teams, aes(x = ERA)) + 
+  geom_histogram(binwidth = 0.20) +
+  labs(
+    title = "Histogram of Earned Run Average", 
+    x = "Earned Run Average"
+  )
+summary(teams$ERA)
+```
+The average earned run average for the 5 years and 30 teams was around 4.16, meaning the pitchers allowed about 4.16 runs per 9 innings. This is a great indicator of how batting measures up against pitching. Higher ERA's are better for batters while lower ERA's are better for the pitchers. Teams with a higher ERA might be categorized as having better batting, or just are bad in general (ex. Colorado Rockies in 2025). 
+
+
+```{r}
+#| label: Histogram of Team Batting Average (2021+)
+
+ggplot(
+  teams,
+  aes(x = AVG)) + 
+  geom_histogram(binwidth = 0.005) + 
+  labs(
+    title = "Distribution of Team Batting Average (2021+)",
+    x = "Batting Average",
+    y = "Count"
+  )
+
+summary(teams$AVG)
+```
+The mean batting average of the 30 teams over the 5 years was 0.245, meaning that in all, MLB players and teams got a hit 24.5% of the time when they went up to the plate. In context, teams want to aim to be at least at this average in order to be successful. Individual players that are better than this average are considered to be better. The highest average was 0.2760
+
+Continuing on with my exploration of the data, some great comparisons for team performance would be both of the previous variables with the winning percentage to compare how each contributed to the success of the teams. 
+
+```{r}
+#| label: Batting Average vs Winning Percentage
+
+ggplot(
+  teams, 
+  aes(x = AVG, y = WinPct)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) + 
+  labs(
+    title = "Team Batting Average vs Winning Percentage (2021+)",
+    x = "Batting Average",
+    y = "Winning Percentage"
+  )
+```
+As you can see in the graph, there is a positive trend with these variables. This suggests that teams with better batting averages tend to win a higher proportion of games. 
+
+```{r}
+#| label: Earned Run Average vs Winning Percentage
+ggplot(
+  teams, 
+  aes(x = ERA, y = WinPct)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) + 
+  labs(
+    title = "Team ERA vs Winning Percentage (2021+)",
+    x = "Earned Run Average",
+    y = "Winning Percentage"
+  )
+```
+This relationship has a negative trend meaning that lower ERA (better pitching) is associated with a higher proportion of games won. 
+
+I also wanted to see if I could compare the two variables as well as use the winning percentage to help me distinguish the balance between the two for the teams. 
+
+```{r}
+#| label: Batting Average vs. ERA by Winning Percentage
+
+ggplot(
+  teams, 
+  aes(x = AVG, y = ERA, color = WinPct)) +
+  geom_point() +
+  labs(
+    title = "Batting Average and ERA by Team Success",
+    x = "Batting Average",
+    y = "Earned Run Average",
+    color = "WinPct"
+  )
+```
+
+With this graph, there is more complexity to the data. The darker the color, the less games won. These darker colors seem to be correlating with the higher ERA and a lower batting average, while the lighter colors seem to correlate with a lower ERA and a higher batting average. This is about what I expected with some odd teams having odd seasons where they lost a lot of games. 
+
+The odd seasons made me wonder if balanced teams have more success compared to just offensive or just defensive teams. 
+
+From here, I want to define the better versus worse teams for each variable. The above average batting average will indicate a strong offense and a below average ERA will indicate strong defense. 
+
+```{r}
+#| label: create team categories
+
+avg_mean <- mean(teams$AVG, na.rm = TRUE)
+era_mean <- mean(teams$ERA, na.rm = TRUE)
+
+teams <- teams |>
+  mutate(
+    team_type = case_when(
+      AVG >= avg_mean & ERA <= era_mean ~ "Balanced",
+      AVG >= avg_mean & ERA > era_mean ~ "Offense",
+      AVG < avg_mean & ERA <= era_mean ~ "Defense",
+      TRUE ~ "Weak"
+    )
+  )
+teams|>
+  count(team_type) 
+
+teams|>
+  group_by(team_type) |>
+  summarise(
+    avg_WinPct = mean(WinPct, na.rm = TRUE),
+    teams_count = n()
+  ) |>
+  arrange(desc(avg_WinPct))
+```
+47 of the teams are balanced, 40 are defense-heavy, 26 are offense-heavy, and 37 are weak in both. With a baseball intuition, we would expect balanced teams to perform the best, which is what our tibble is indeed showing us. Therefore, teams should be focused on having strong pitching as well as strong batting rather than focusing on one. 
 
 ## Section 3: Unsupervised Learning
 
 #Select one of the following techniques: Principal Component Analysis, k-means clustering, or model-based clustering. You may additionally choose hierarchical clustering if you think the training set is small enough that you can get a reasonable-looking dendrogram. 
 #Perform the technique on the training set. Select the number of PCs or number of clusters. Justify your selection.
+
+In the context of the data that I already have investigated, k-means clustering seems to be the best fit. I want to use the performance rate statistics to make this a lot easier to work with and analyze. 
+```{r}
+#| label: choose variables to cluster
+cluster_data <- teams |>
+  select(AVG, ERA, WinPct) |>
+  na.omit()
+
+cluster_scaled <- scale(cluster_data)
+```
+
+```{r}
+#| label: choose the number of clusters
+
+set.seed(2026)
+ss <- sapply(1:8, function(k){
+  kmeans(cluster_scaled, centers = k, nstart = 25)$tot.withinss
+})
+
+plot(1:8, ss, type = "b",
+     xlab = "Number of Clusters (k)",
+     ylab = "Within-Cluster Sum of Squares",
+     main = "Elbow Method for Choosing k Clusters")
+```
+
+I want to choose k=3. These groupings can represent the strong teams, average teams, and weak teams creating a balanced, offense, and defense comparison similar to how I did above. 
+
+```{r}
+#| label: run the k-means clustering
+
+set.seed(2026)
+kmeans_teams <- kmeans(cluster_scaled, centers = 3, nstart = 25)
+teams$cluster <- as.factor(kmeans_teams$cluster)
+```
+```{r}
+#| label: visualize the clusters
+
+ggplot(
+  teams,
+  aes(x = AVG, y = ERA, color = cluster)) + 
+  geom_point() +
+  labs(
+    title = "K-means Clustering of MLB Teams (2021+) (k=3)",
+    x = "Batting Average",
+    y = "ERA"
+  )
+```
+
+```{r}
+teams |>
+  group_by(cluster) |>
+  summarise(
+    avg_WinPct = mean(WinPct),
+    avg_AVG = mean(AVG),
+    avg_ERA = mean(ERA),
+    count = n()
+  )
+```
+
+I want to compare this with my previous classification of the Balanced, Offenseive, Defensive and Weak teams. 
+
+```{r}
+#| label: comparison 
+
+table(teams$team_type, teams$cluster)
+
+ggplot(
+  teams,
+  aes(x = team_type, fill = cluster)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Comparison of Categories vs. K-Means Clustering",
+    x = "Theoretical Team Type",
+    y = "Proportion",
+    fill = "Cluster"
+  )
+```
+
 #Explain the general concepts/procedure behind the algorith you are implementing. Attempt as best you can to write your explanation in language that someone without much statistical knowledge can understand.
 #Produce appropriate graphs showing the results of your technique. Explain what your chosen PCs (at least the first two) or chosen clusters (at least two) represent in context. 
 
