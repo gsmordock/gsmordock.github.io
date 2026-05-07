@@ -139,7 +139,7 @@ ggplot(
     y = "Winning Percentage"
   )
 ```
-As you can see in the graph, there is a positive trend with these variables. This suggests that teams with better batting averages tend to win a higher proportion of games. 
+The thing that stands out in this graph is that there is a positive trend with these variables. This pattern shows that teams with better batting averages tend to win a higher proportion of games. 
 
 ```{r}
 #| label: Earned Run Average vs Winning Percentage
@@ -216,7 +216,7 @@ teams|>
   ) |>
   arrange(desc(avg_WinPct))
 ```
-47 of the teams are balanced, 40 are defense-heavy, 26 are offense-heavy, and 37 are weak in both. With a baseball intuition, we would expect balanced teams to perform the best, which is what our tibble is indeed showing us. Therefore, teams should be focused on having strong pitching as well as strong batting rather than focusing on one. 
+47 of the teams are balanced, 40 are defense-heavy, 26 are offense-heavy, and 37 are weak in both. With a baseball intuition, we would expect balanced teams to perform the best, which is what our tibble is indeed showing us. Therefore, this supports the idea that teams should be more balanced rather than focusing on just one way of playing. 
 
 ## Section 3: Unsupervised Learning
 
@@ -268,7 +268,7 @@ ggplot(
   )
 ```
 
-K-means clustering is a method that groups observations based on how similar they are. The model compares the teams based on the selected variables. Teams with similar values are going to be grouped together into the same cluster. The goal is to create clusters where teams are as similar as possible within the cluster and incredibly different than the teams in other clusters. 
+K-means clustering is a method that groups teams based on how similar their offensive and defensive statistics are. The model compares the teams based on the selected variables. Teams with similar values are going to be grouped together into the same cluster. The goal is to create clusters where teams are as similar as possible within the cluster and incredibly different than the teams in other clusters. 
 
 In order to do this, we have to pick how many groups we want, represented by k = 3. The algorithm randomly places 3 center points called centroids and assigns teams to the closest one based on similarities. The locations are then updated to reflect the average of the group. The process repeats many times until assignments stabilize and stop switching clusters. This helps to discover patterns that may not be obvious when looking at the data initially. 
 
@@ -302,7 +302,7 @@ ggplot(
   )
 ```
 This table shows how the categories I created earlier compare with the clusters assigned by the k-means clusters. This allows us to see whether the groups matched the clusters. If many teams appear with the same cluster, this suggests that the original classifications and clusters agree. Overlap across multiple clusters means that there is more to the categorization. 
-
+I thought it was interesting to see that the balanced teams were mostly in clusters 1 and 2 while the weak teams were mostly in 2 and 3. Unsurprisingly, there was none of cluster 3 in the balanced category, and none of cluster 1 in the weak category. If I had chosen 4 clusters, I predict that the groupings would be more balanced between the clusters with more in the weak type. 
 
 ## Section 4: Supervised Learning
 
@@ -374,7 +374,7 @@ The test rmse means that my model's prediction of team wins are off by about 4.5
 
 For this process, we tuned the number of neighbors (k) to control how many similar teams are used to make a prediction for another given team. For example, our k was 7 so the model chose the 7 most similar teams in the training data and averaged the wins to create the prediction of how many wins the team would have. In general, k controls the bias vs variance of the model. If k is small, the model is too flexible and follows the training data, which means low bias and high variance. If k is large, the model is more stable but has higher bias and lower variance since there might be some patterns missed. 
 
-Next, we are going to fit a multiple linear regression model. Multiple linear regression works by creating a single equation that represents the relationship between the predictors and the response variable (wins). It estimates how much each predictor affects the number of wins while keeping the rest of the predictors the same. This method assumes that the relationship between the predictors and response variable is approximately linear. Another assumption is that the observations are independent and that the predictors are not excessively correlated with each other. These seem to hold with my EDA and considering the variables I chose. 
+Next, we are going to fit a multiple linear regression model. I used multiple linear regression because I was curious about if standard statistics can directly explain how many wins a team will get in a linear way. Multiple linear regression works by creating a single equation that represents the relationship between the predictors and the response variable (wins). It estimates how much each predictor affects the number of wins while keeping the rest of the predictors the same. This method assumes that the relationship between the predictors and response variable is approximately linear. Another assumption is that the observations are independent and that the predictors are not excessively correlated with each other. These seem to hold with my EDA and considering the variables I chose. 
 
 ```{r}
 #| label: fit the model
