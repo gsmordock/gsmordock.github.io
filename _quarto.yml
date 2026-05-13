@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+render: 
+- index.qmd
+- Project.qmd
 
 website:
   title: "Gigi Mordock"
@@ -9,7 +12,7 @@ website:
       - href: index.qmd
         text: Home
       - href: Project.qmd 
-        href: Project
+        href: Project 
 
 format:
   html:
