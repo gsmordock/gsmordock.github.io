@@ -1,7 +1,7 @@
 ---
 title: "Project"
 author: "Gigi Mordock"
-format: pdf
+format: html
 editor: source
 ---
 
@@ -82,10 +82,6 @@ teams_test <- testing(teams_split)
 ```
 
 The data set was split into 80% and 20% of the data, where 80% went into the training set and 20% went into the test set. The training set has 120 observations and the testing set has 30 observations. 
-
-
-######DELETE Clustering: group teams by off/def style
-######DELETE: Prediction: model wins
 
 ## Section 2: Data Wrangling and Exploratory Data Analysis
 Please grade on the additional exploratory Analysis rubric as this data was already very clean. 
@@ -432,3 +428,6 @@ Comparing both methods, the models worked reasonably well at predicting how many
 
 ## Conclusion
 This project explored how offense and defense statistics influence a team's success in Major League Baseball from 2021 to 2025. Stronger batting averages and lower ERA values were associated with higher winning percentages, as discovered through exploratory data analysis. Using k-means clustering, teams were grouped with similar playing styles and levels of success. Both K-nearest neighbors and multiple linear regression showed that team wins can be predicted reasonably well using team statistics. Overall, the project demonstrated that well balanced teams perform the best, and teams weaker offensively or defensively may benefit from improving those weaker areas in order to become more balanced.  
+
+
+I am going to try hierarchical clustering to continue predictions and analization.  
