@@ -128,6 +128,16 @@ teams <- teams |>
   )
 ```
 
+```{r}
+#| label: split into train and test data
+set.seed(2026)
+teams_split <- initial_split(teams, prop = .8)
+teams_train <- training(teams_split)
+teams_test <- testing(teams_split)
+```
+
+The data set was split into 80% and 20% of the data, where 80% went into the training set and 20% went into the test set. The training set has 120 observations and the testing set has 30 observations.
+
 ## Exploratory Data Analysis
 
 I decided to look into some big indicators of success within a baseball team: batting average and earned run average. Batting average is often a great indicator of success from offense and earned run averages are an indicator of defense. This will help me to categorize the groupings of offensive versus defensive teams.
@@ -144,7 +154,7 @@ ggplot(teams, aes(x = ERA)) +
 summary(teams$ERA)
 ```
 
-The average earned run average for the 5 years and 30 teams was around 4.16, meaning the pitchers allowed about 4.16 runs per 9 innings. This is a great indicator of how batting measures up against pitching. Higher ERA's indicate weaker pitching performance. Teams with a higher ERA might be categorized as having better batting, or just are bad in general.
+The average earned run average for the 5 years and 30 teams was around 4.16, meaning the pitchers allowed about 4.16 runs per 9 innings. This is a great indicator of how batting measures up against pitching. Higher ERAs indicate weaker pitching performance. Teams with a higher ERA might be categorized as having better batting, or just are bad in general.
 
 ```{r}
 #| label: Histogram of Team Batting Average (2021+)
@@ -220,7 +230,7 @@ With this graph, there is more complexity to the data. The darker the color, the
 
 As a follow-up question, I will investigate whether balanced teams have more success compared to just offensive or just defensive teams.
 
-To clasify teams, I define the better versus worse teams for each variable. The above average batting average will indicate a strong offense and a below average ERA will indicate strong defense.
+To classify teams, I define the better versus worse teams for each variable. The above average batting average will indicate a strong offense and a below average ERA will indicate strong defense.
 
 ```{r}
 #| label: create team categories
@@ -309,7 +319,7 @@ ggplot(
   aes(x = AVG, y = ERA, color = cluster)) + 
   geom_point() +
   labs(
-    title = "K-means Clustering of MLB Teams (2021+) (k=3)",
+    title = "K-means Clustering of MLB Teams (2021+) (k=4)",
     x = "Batting Average",
     y = "ERA"
   )
@@ -330,7 +340,7 @@ teams_train |>
   )
 ```
 
-Based on the cluster averages, they seem to be separated by playing style. One cluster has higher batting averages and lower ERA's, which correspond with higher winning percentages. Another had weaker overall teams with lower batting averages and higher ERA's. The rest are the teams that were more average. Therefore, the clusters represented low, average, and high performing teams.
+Based on the cluster averages, they seem to be separated by playing style. One cluster has higher batting averages and lower ERAs, which correspond with higher winning percentages. Another had weaker overall teams with lower batting averages and higher ERAs. The rest are the teams that were more average. Therefore, the clusters represented low, average, and high performing teams.
 
 I want to compare this with my previous classification from above of the Balanced, Offensive, Defensive and Weak teams.
 
@@ -357,9 +367,22 @@ I thought it was interesting to see that the balanced teams were mostly in clust
 
 ## Insights/Conclusion
 
-Overall, we may not have found a model to predict wins, but we did get some insight on types of teams that won. We discovered that both offense and defense matter. Then grouped into balanced, offense-heavy, defense-heavy, and weak, balanced teams won at least 6 games more than any of the other categories. K-means clustering supported this by naturally grouping the teams into stronger and weaker categories based on more advanced statistics. Both sections showed that balanced teams perform the best, and when not balanced, defensive strength is slightly more valuable than offense.
+Overall, we found that team statistics explain wins reasonably well, but clustering was primarily used for grouping rather than prediction. When grouped into balanced, offense-heavy, defense-heavy, and weak, balanced teams won at least 6 games more than any of the other categories. K-means clustering supported this by naturally grouping the teams into stronger and weaker categories based on more advanced statistics. Both sections showed that balanced teams perform the best, and when not balanced, defensive strength is slightly more valuable than offense.
 
 ```{r}
+teams_summary <- teams |>
+  group_by(team_type) |>
+  summarise(
+    avg_wins = mean(W, na.rm = TRUE),
+    avg_WinPct = mean(WinPct, na.rm = TRUE),
+    count = n()
+  ) |>
+  mutate(
+    team_type = factor(
+      team_type,
+      levels = c("Balanced", "Offense", "Defense", "Weak")
+    )
+  )
 ggplot(teams_summary, aes(x = team_type, y = avg_wins, fill = team_type)) +
   geom_col() +
   geom_text(aes(label = round(avg_wins, 1)), vjust = -0.5, size = 4) +

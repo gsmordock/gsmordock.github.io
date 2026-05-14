@@ -133,8 +133,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./Project.html" aria-current="page"> 
-<span class="menu-text">Project</span></a>
+    <a class="nav-link" href="./Offensive-Defensive.html"> 
+<span class="menu-text">Offense vs.&nbsp;Defense</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -606,7 +606,8 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>Unlike k-means clustering, heirarchical clustering builds a tree-like structure called a dendrogram that shows how the teams merge together based on how similar they are. Teams that join lower are more similar. I removed the names entirely as they made the dendrogram look complicated.</p>
 <p>The first cluster is going to be more high-performing and balanced teams. Cluster 2 is mid-tier, average teams, and cluster 3 is weaker performing teams.</p>
-<p>This reinforces the earlier conclusion that balanced teams perform best as they naturally split into strong, weak, and mid-tier groups. I want to compare this with my previous classification of the Balanced, Offensive, Defensive and Weak teams.</p>
+<p>This reinforces the earlier conclusion that balanced teams perform best as they naturally split into strong, weak, and mid-tier groups.</p>
+<p>I want to compare this with my previous classification of the Balanced, Offensive, Defensive and Weak teams.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(teams_train<span class="sc">$</span>team_type, teams_train<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -635,7 +636,8 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </div>
-<p>This table shows how the categories I created earlier compare with the clusters assigned by the k-means clusters. This allows us to see whether the groups matched the clusters. If many teams appear with the same cluster, this suggests that the original classifications and clusters agree. Overlap across multiple clusters means that there is more to the categorization. I thought it was interesting to see that the balanced teams were mostly in clusters 1 and 2 while the weak teams were mostly in 2 and 3. Unsurprisingly, there was none of cluster 3 in the balanced category, and none of cluster 1 in the weak category. If I had chosen 4 clusters, I predict that the groupings would be more balanced between the clusters with more in the weak type.</p>
+<p>This table shows how the categories I created earlier compare with the clusters assigned by the k-means clusters. This allows us to see whether the groups matched the clusters. If many teams appear with the same cluster, this suggests that the original classifications and clusters agree. Overlap across multiple clusters means that there is more to the categorization.</p>
+<p>I thought it was interesting to see that the balanced teams were mostly in clusters 1 and 2 while the weak teams were mostly in 2 and 3. Unsurprisingly, there was none of cluster 3 in the balanced category, and none of cluster 1 in the weak category. If I had chosen 4 clusters, I predict that the groupings would be more balanced between the clusters with more in the weak type.</p>
 </section>
 <section id="section-4-supervised-learning" class="level2">
 <h2 class="anchored" data-anchor-id="section-4-supervised-learning">Section 4: Supervised Learning</h2>

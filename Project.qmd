@@ -327,7 +327,6 @@ Unlike k-means clustering, heirarchical clustering builds a tree-like structure 
 The first cluster is going to be more high-performing and balanced teams. Cluster 2 is mid-tier, average teams, and cluster 3 is weaker performing teams. 
 
 This reinforces the earlier conclusion that balanced teams perform best as they naturally split into strong, weak, and mid-tier groups. 
-
 I want to compare this with my previous classification of the Balanced, Offensive, Defensive and Weak teams. 
 
 ```{r}
@@ -478,3 +477,5 @@ Comparing both methods, the models worked reasonably well at predicting how many
 
 ## Conclusion
 This project explored how offense and defense statistics influence a team's success in Major League Baseball from 2021 to 2025. Stronger batting averages and lower ERA values were associated with higher winning percentages, as discovered through exploratory data analysis. Using k-means clustering, teams were grouped with similar playing styles and levels of success. Both K-nearest neighbors and multiple linear regression showed that team wins can be predicted reasonably well using team statistics. Overall, the project demonstrated that well balanced teams perform the best, and teams weaker offensively or defensively may benefit from improving those weaker areas in order to become more balanced.  
+
+
