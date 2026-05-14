@@ -264,6 +264,7 @@ ggplot(
   )
 ```
 
+
 K-means clustering is a method that groups teams based on how similar their offensive and defensive statistics are. The model compares the teams based on the selected variables. Teams with similar values are going to be grouped together into the same cluster. The goal is to create clusters where teams are as similar as possible within the cluster and incredibly different than the teams in other clusters. 
 
 In order to do this, we have to pick how many groups we want. Due to time restraints, the groupings will represented by k = 3. The algorithm randomly places 3 center points called centroids and assigns teams to the closest one based on similarities. The locations are then updated to reflect the average of the group. The process repeats many times until assignments stabilize and stop switching clusters. This helps to discover patterns that may not be obvious when looking at the data initially. 
@@ -326,6 +327,7 @@ Unlike k-means clustering, heirarchical clustering builds a tree-like structure 
 The first cluster is going to be more high-performing and balanced teams. Cluster 2 is mid-tier, average teams, and cluster 3 is weaker performing teams. 
 
 This reinforces the earlier conclusion that balanced teams perform best as they naturally split into strong, weak, and mid-tier groups. 
+
 I want to compare this with my previous classification of the Balanced, Offensive, Defensive and Weak teams. 
 
 ```{r}
@@ -345,6 +347,7 @@ ggplot(
   )
 ```
 This table shows how the categories I created earlier compare with the clusters assigned by the k-means clusters. This allows us to see whether the groups matched the clusters. If many teams appear with the same cluster, this suggests that the original classifications and clusters agree. Overlap across multiple clusters means that there is more to the categorization. 
+
 I thought it was interesting to see that the balanced teams were mostly in clusters 1 and 2 while the weak teams were mostly in 2 and 3. Unsurprisingly, there was none of cluster 3 in the balanced category, and none of cluster 1 in the weak category. If I had chosen 4 clusters, I predict that the groupings would be more balanced between the clusters with more in the weak type. 
 
 ## Section 4: Supervised Learning

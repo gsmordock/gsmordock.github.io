@@ -8,8 +8,8 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: Project.qmd 
-        text: Project 
+      - href: Offensive-Defensive.qmd 
+        text: Offense vs. Defense  
 
 format:
   html:
