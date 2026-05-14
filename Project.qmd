@@ -283,7 +283,7 @@ Based on the cluster averages, they seem to be separated by playing style. One c
 Another way of doing these clusters would be through hierarchical clustering. 
 
 ```{r}
-# Hierarchical Clustering
+#|label: Hierarchical Clustering
 
 team_dist <- dist(cluster_scaled, method = "euclidean")
 hc_teams <- hclust(team_dist)
